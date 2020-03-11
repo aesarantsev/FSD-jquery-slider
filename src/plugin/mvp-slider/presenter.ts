@@ -11,7 +11,13 @@ export class SliderPresenter {
   settings: SliderOptions;
 
   constructor(customEvents: AppReactor, settings?: SliderOptions) {
-    const { startValue, endValue, stepSize, startPosition } = settings;
+    const {
+      startValue,
+      endValue,
+      stepSize,
+      startPosition,
+      ui: { tooltip }
+    } = settings;
 
     this.customEvents = customEvents;
 
@@ -19,7 +25,10 @@ export class SliderPresenter {
       startValue,
       endValue,
       stepSize,
-      value: startPosition
+      value: startPosition,
+      ui: {
+        tooltip
+      }
     });
 
     this.view = new SliderView(this.model.get());

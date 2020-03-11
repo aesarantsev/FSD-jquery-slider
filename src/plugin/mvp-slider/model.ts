@@ -10,6 +10,10 @@ export interface IData {
 
   points?: Array<number>;
   percents?: Array<number>;
+
+  ui:{
+    tooltip:boolean
+  }
 }
 
 export class SliderModel {

@@ -4,20 +4,33 @@ export class SliderView {
   data: IData;
   html: HTMLElement;
   ball: HTMLElement;
+  tooltip: HTMLElement;
+  tooltipHtml: string;
 
   constructor(data: IData) {
     this.data = data;
+
+    this.tooltipHtml = this.data.ui.tooltip
+      ? `<span class="slider-tooltip">Tooltip text</span>`
+      : "";
+
     this.html = document.createElement("div");
     this.html.className = "slider";
     this.html.innerHTML = `
       <div class="slider-track">
         <div class="slider-selection" style="width: 0%;"></div>
       </div>
-      <div id="test" class="slider-handle" ></div>
+      <div id="test" class="slider-handle" >
+        ${this.tooltipHtml}
+      </div>
   `;
 
     this.ball = this.html.getElementsByClassName(
       "slider-handle"
+    )[0] as HTMLElement;
+
+    this.tooltip = this.html.getElementsByClassName(
+      "slider-tooltip"
     )[0] as HTMLElement;
 
     this.updateView(data);
@@ -26,6 +39,7 @@ export class SliderView {
   updateView = (data: IData) => {
     this.ball.style.left = data.percentValue + "%";
     this.ball.setAttribute("value", data.value.toString());
+    if (this.data.ui.tooltip) this.tooltip.innerHTML = data.value.toString();
   };
 
   addDragHandler = (handler: any) => {

@@ -5,10 +5,13 @@ import "./plugin/style.css";
 
 let settingsOne = {
   startValue: 0,
-  endValue: 20,
-  stepSize: 2,
+  endValue: 1000,
+  stepSize: 100,
   startPosition: 6,
-  range: false
+  range: false,
+  ui: {
+    tooltip: true
+  }
 };
 $("#root").slider(settingsOne);
 
