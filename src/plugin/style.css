@@ -1,0 +1,46 @@
+#root {
+  width: 50%;
+}
+
+#root2 {
+  width: 30%;
+}
+
+.slider {
+  width: 100%;
+  padding:5px 0;
+  /*    display: inline-block;
+    vertical-align: middle;  */
+  position: relative;
+}
+
+.slider .slider-track {
+  height: 10px;
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 5px;
+
+  /*     margin-top: -5px; */
+  /*     top: 50%; */
+  /*     left: 0; */
+}
+
+.slider .slider-track .slider-selection {
+  height: 10px;
+  border-radius: 5px;
+  background-color: #aaa;
+}
+
+.slider .slider-handle {
+  position: absolute;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background-color: #337ab7;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-top: -5px;
+  cursor: pointer;
+}

@@ -1,10 +1,24 @@
 import $ from "jquery";
 
-import { AppReactor } from "./plugin/utils";
-import { ListPresenter } from "./plugin/presenter";
+import "./plugin/slider";
+import "./plugin/style.css";
 
-import './plugin/slider'
+let settingsOne = {
+  startValue: 0,
+  endValue: 20,
+  stepSize: 2,
+  startPosition: 6,
+  range: false
+};
+$("#root").slider(settingsOne);
 
+let settingsTwo = {
+  startValue: 4,
+  endValue: 32,
+  stepSize: 4,
+  startPosition: 8,
+  range: false
+};
+$("#root2").slider(settingsTwo);
 
-$("#root").slider();
-$("#root2").slider();
+$("#root3").slider();
