@@ -2,18 +2,10 @@ import { AppReactor } from "./utils";
 import { EVENTS } from "./entities/events";
 
 export interface IData {
-  startValue: number;
-  endValue: number;
-  stepSize: number;
-  value: number;
-  percentValue?: number;
-
+  settings: SliderOptions;
+  percentValues?: Array<number>;
   points?: Array<number>;
   percents?: Array<number>;
-
-  ui:{
-    tooltip:boolean
-  }
 }
 
 export class SliderModel {
@@ -22,35 +14,46 @@ export class SliderModel {
 
   constructor(customEvents: AppReactor, data: IData) {
     this.customEvents = customEvents;
-    this.data = { ...data, points: [], percents: [] };
+    this.data = { ...data, points: [], percents: [], percentValues: [] };
     this.calculatePoints();
     this.calculatePercents();
     this.calculatePercentValue();
+    console.log("constructor", this.data);
   }
 
   get = () => this.data;
 
-  setValue = (newValue: number):void => {
-    this.data.value = newValue;
+  public setPrimaryValue = (newValue: number): void => {
+    this.data.settings.values[0] = newValue;
     this.calculatePercentValue();
     this.customEvents.dispatchEvent(EVENTS.drag);
   };
 
-  calculatePercentValue = ():void => {
-    this.data.percentValue = this.data.percents[
-      this.data.points.indexOf(this.data.value)
+  public setSecondaryValue = (newValue: number): void => {
+    this.data.settings.values[1] = newValue;
+    this.calculatePercentValue();
+    this.customEvents.dispatchEvent(EVENTS.drag);
+  };
+
+  private calculatePercentValue = (): void => {
+    this.data.percentValues[0] = this.data.percents[
+      this.data.points.indexOf(this.data.settings.values[0])
+    ];
+    this.data.percentValues[1] = this.data.percents[
+      this.data.points.indexOf(this.data.settings.values[1])
     ];
   };
 
-  calculatePoints = ():void => {
-    const { startValue, endValue, stepSize, points } = this.data;
+  private calculatePoints = (): void => {
+    const { startValue, endValue, stepSize } = this.data.settings;
     for (let i = startValue; i <= endValue; i += stepSize) {
-      points.push(i);
+      this.data.points.push(i);
     }
   };
 
-  calculatePercents = ():void => {
-    const { startValue, points, percents } = this.data;
+  private calculatePercents = (): void => {
+    const { startValue } = this.data.settings;
+    const { points, percents } = this.data;
     let endPoint = points[points.length - 1];
     points.map(item => {
       let res = customCeil(
@@ -61,7 +64,7 @@ export class SliderModel {
   };
 }
 
-function customCeil(value: number):number {
+function customCeil(value: number): number {
   let res = Math.ceil(value);
 
   if (value > 0 && value < 1) {

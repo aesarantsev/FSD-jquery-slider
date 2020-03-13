@@ -8,35 +8,22 @@ export class SliderPresenter {
   view: SliderView;
   model: SliderModel;
   customEvents: AppReactor;
-  settings: SliderOptions;
 
   constructor(customEvents: AppReactor, settings?: SliderOptions) {
-    const {
-      startValue,
-      endValue,
-      stepSize,
-      startPosition,
-      ui: { tooltip }
-    } = settings;
-
     this.customEvents = customEvents;
-
     this.model = new SliderModel(customEvents, {
-      startValue,
-      endValue,
-      stepSize,
-      value: startPosition,
-      ui: {
-        tooltip
-      }
+      settings,
+      percentValues: [],
+      points: []
     });
 
     this.view = new SliderView(this.model.get());
 
-    this.settings = settings;
-
-    this.view.addDragHandler(({ value }: any): void => {
-      this.model.setValue(value);
+    this.view.addDragHandler(({ primaryValue, secondaryValue }: any): void => {
+      if (primaryValue || primaryValue == 0)
+        this.model.setPrimaryValue(primaryValue);
+      if (secondaryValue || primaryValue == 0)
+        this.model.setSecondaryValue(secondaryValue);
     });
 
     //==========Event register

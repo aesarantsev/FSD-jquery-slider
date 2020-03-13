@@ -1,8 +1,8 @@
 interface SliderOptions {
-  startValue?:number;
-  endValue?:number;
+  startValue?: number;
+  endValue?: number;
   stepSize?: number;
-  startPosition?:number;
+  values?: Array<number>;
   range?: boolean;
   ui?: {
     vertical?: boolean;

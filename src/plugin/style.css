@@ -52,7 +52,6 @@
 
 /* =================Toolpip */
 
-
 .slider-handle .slider-tooltip {
   visibility: hidden;
   width: fit-content;
@@ -64,9 +63,9 @@
   position: absolute;
   z-index: 1;
   bottom: 125%;
-  margin-left: -5px;
+  margin-left: -100%;
   opacity: 0;
-  transition:  0.2s;
+  transition: 0.2s;
 }
 
 .slider-handle .slider-tooltip::after {
@@ -83,7 +82,6 @@
 .slider-handle:hover .slider-tooltip {
   visibility: visible;
   opacity: 1;
-
 }
 
 .slider-handle:active .slider-tooltip {

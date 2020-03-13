@@ -7,7 +7,7 @@ let settingsOne = {
   startValue: 0,
   endValue: 1000,
   stepSize: 100,
-  startPosition: 6,
+  values: [200],
   range: false,
   ui: {
     tooltip: true
@@ -19,9 +19,12 @@ let settingsTwo = {
   startValue: 4,
   endValue: 32,
   stepSize: 4,
-  startPosition: 8,
-  range: false
+  range: true,
+  values: [8, 24],
+  ui: {
+    tooltip: false
+  }
 };
 $("#root2").slider(settingsTwo);
 
-$("#root3").slider();
+$("#root3").slider({ ui: { tooltip: true } });
