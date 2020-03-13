@@ -5,9 +5,9 @@ import "./plugin/style.css";
 
 let settingsOne = {
   startValue: 0,
-  endValue: 1000,
-  stepSize: 100,
-  values: [200],
+  endValue: 100,
+  stepSize: 1,
+  values: [1],
   range: false,
   ui: {
     tooltip: true
@@ -16,15 +16,23 @@ let settingsOne = {
 $("#root").slider(settingsOne);
 
 let settingsTwo = {
-  startValue: 4,
-  endValue: 32,
-  stepSize: 4,
-  range: true,
-  values: [8, 24],
+  startValue: 0,
+  endValue: 100,
+  stepSize: 1,
+  values: [1],
+  range: false,
   ui: {
-    tooltip: false
+    tooltip: true
   }
 };
 $("#root2").slider(settingsTwo);
 
-$("#root3").slider({ ui: { tooltip: true } });
+
+$("#root3").slider({
+  startValue: 100,
+  endValue: 200,
+  stepSize:10,
+  values: [110, 120],
+  range: true,
+  ui: { tooltip: true, vertical: true }
+});

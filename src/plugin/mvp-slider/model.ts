@@ -18,7 +18,6 @@ export class SliderModel {
     this.calculatePoints();
     this.calculatePercents();
     this.calculatePercentValue();
-    console.log("constructor", this.data);
   }
 
   get = () => this.data;

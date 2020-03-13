@@ -17,18 +17,21 @@ export class SliderView {
     this.data = data;
     this.generateElement(
       this.data.settings.ui.tooltip,
-      this.data.settings.range
+      this.data.settings.range,
+      this.data.settings.ui.vertical
     );
     this.updateView(data);
   }
 
   public updateView = (data: IData): void => {
-    let requestId = requestAnimationFrame(()=>{
+
+    if (this.data.settings.ui.vertical) {
+      this.sliderPrimaryHandlerDiv.style.top = data.percentValues[0] + "%";
+      this.sliderSecondaryHandlerDiv.style.top = data.percentValues[1] + "%";
+    } else {
       this.sliderPrimaryHandlerDiv.style.left = data.percentValues[0] + "%";
       this.sliderSecondaryHandlerDiv.style.left = data.percentValues[1] + "%";
-    });
-
-
+    }
     this.sliderPrimaryHandlerDiv.setAttribute(
       "value",
       data.settings.values[0].toString()
@@ -53,28 +56,40 @@ export class SliderView {
   private sliderHandlerOnMouseDown = (
     sliderHandler: HTMLElement,
     e: MouseEvent,
-    handler: any
+    saveData: any
   ): void => {
     let parentElement = sliderHandler.parentElement;
     let parentElementWidth = parentElement.offsetWidth;
 
+    let parentElementHeight = parentElement.clientHeight;
+    let parentElementCoords = getCoords(parentElement);
+
     var coords = getCoords(sliderHandler);
+
+    //e.pageX - Место клика
+    //coords.left - от левого края до начала элемента
     var shiftX = e.pageX - coords.left;
+
+    var shiftY = e.pageY - coords.top;
 
     sliderHandler.style.position = "absolute";
     sliderHandler.style.zIndex = "1000";
-
     document.onmousemove = e => {
       let condidat = customCeil(
-        ((e.pageX - shiftX) * 100) / parentElementWidth
+        this.data.settings.ui.vertical
+          ? ((e.pageY - shiftY - parentElementCoords.top) * 100) /
+              parentElementHeight
+          : ((e.pageX - shiftX - parentElementCoords.left) * 100) /
+              parentElementWidth
       );
+
       let condidatId = this.data.percents.indexOf(condidat);
       if (condidat <= 100 && condidat >= 0)
         if (condidatId != -1) {
           if (sliderHandler.classList.contains("primary")) {
-            handler({ primaryValue: this.data.points[condidatId] });
+            saveData({ primaryValue: this.data.points[condidatId] });
           } else if (sliderHandler.classList.contains("secondary")) {
-            handler({ secondaryValue: this.data.points[condidatId] });
+            saveData({ secondaryValue: this.data.points[condidatId] });
           }
         }
       //не выделяем текст на странице во время перетаскивания ползунка
@@ -87,9 +102,14 @@ export class SliderView {
     };
   };
 
-  private generateElement = (tooltip: boolean, range: boolean): void => {
+  private generateElement = (
+    tooltip: boolean,
+    range: boolean,
+    vertical: boolean
+  ): void => {
     this.baseDiv = document.createElement("div");
     this.baseDiv.className = "slider";
+    if (vertical) this.baseDiv.classList.add("vertical");
 
     this.sliderTrackDiv = document.createElement("div");
     this.sliderTrackDiv.classList.add("slider-track");
@@ -132,6 +152,7 @@ function getCoords(elem: HTMLElement) {
   var box = elem.getBoundingClientRect();
   return {
     top: box.top + pageYOffset,
+
     left: box.left + pageXOffset
   };
 }
