@@ -1,13 +1,13 @@
 interface SliderOptions {
-  startValue?: number;
-  endValue?: number;
-  stepSize?: number;
+  from?: number;
+  to?: number;
+  step?: number;
   values?: Array<number>;
   range?: boolean;
+  inputs?: Array<JQuery>;
   ui?: {
     vertical?: boolean;
     tooltip?: boolean;
-    showInput?: boolean;
   };
 }
 

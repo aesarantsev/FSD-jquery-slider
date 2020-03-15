@@ -5,6 +5,7 @@ export class SliderView {
 
   //===== DOM elements
   baseDiv: HTMLElement;
+  sliderBaseDiv: HTMLElement;
   sliderTrackDiv: HTMLElement;
   sliderSelectionDiv: HTMLElement;
   sliderPrimaryHandlerDiv: HTMLElement;
@@ -15,7 +16,7 @@ export class SliderView {
 
   constructor(data: IData) {
     this.data = data;
-    this.generateElement(
+    this.generateSliderElement(
       this.data.settings.ui.tooltip,
       this.data.settings.range,
       this.data.settings.ui.vertical
@@ -24,7 +25,12 @@ export class SliderView {
   }
 
   public updateView = (data: IData): void => {
-
+    if (this.data.settings.inputs[0]) {
+      this.data.settings.inputs[0].val(data.settings.values[0]);
+    }
+    if (this.data.settings.inputs[1]) {
+      this.data.settings.inputs[1].val(data.settings.values[1]);
+    }
     if (this.data.settings.ui.vertical) {
       this.sliderPrimaryHandlerDiv.style.top = data.percentValues[0] + "%";
       this.sliderSecondaryHandlerDiv.style.top = data.percentValues[1] + "%";
@@ -66,8 +72,6 @@ export class SliderView {
 
     var coords = getCoords(sliderHandler);
 
-    //e.pageX - Место клика
-    //coords.left - от левого края до начала элемента
     var shiftX = e.pageX - coords.left;
 
     var shiftY = e.pageY - coords.top;
@@ -102,14 +106,18 @@ export class SliderView {
     };
   };
 
-  private generateElement = (
+  private generateSliderElement = (
     tooltip: boolean,
     range: boolean,
     vertical: boolean
   ): void => {
     this.baseDiv = document.createElement("div");
-    this.baseDiv.className = "slider";
-    if (vertical) this.baseDiv.classList.add("vertical");
+    this.baseDiv.style.width = "100%";
+    this.baseDiv.style.height = "100%";
+
+    this.sliderBaseDiv = document.createElement("div");
+    this.sliderBaseDiv.className = "slider";
+    if (vertical) this.sliderBaseDiv.classList.add("vertical");
 
     this.sliderTrackDiv = document.createElement("div");
     this.sliderTrackDiv.classList.add("slider-track");
@@ -137,10 +145,18 @@ export class SliderView {
       this.sliderPrimaryHandlerDiv.append(this.sliderPrimaryTooltipSpan);
       this.sliderSecondaryHandlerDiv.append(this.sliderSecondaryTooltipSpan);
     }
-    this.baseDiv.append(this.sliderTrackDiv, this.sliderPrimaryHandlerDiv);
+    this.sliderBaseDiv.append(
+      this.sliderTrackDiv,
+      this.sliderPrimaryHandlerDiv
+    );
 
     if (range && this.data.settings.values[1])
-      this.baseDiv.append(this.sliderTrackDiv, this.sliderSecondaryHandlerDiv);
+      this.sliderBaseDiv.append(
+        this.sliderTrackDiv,
+        this.sliderSecondaryHandlerDiv
+      );
+
+    this.baseDiv.append(this.sliderBaseDiv);
   };
 
   public getHtml = () => {
@@ -152,7 +168,6 @@ function getCoords(elem: HTMLElement) {
   var box = elem.getBoundingClientRect();
   return {
     top: box.top + pageYOffset,
-
     left: box.left + pageXOffset
   };
 }

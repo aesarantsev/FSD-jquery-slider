@@ -22,7 +22,19 @@ export class SliderModel {
 
   get = () => this.data;
 
+  public setValueFromInput = (value: number, isPrimaryInput: boolean): void => {
+    if (value >= this.data.settings.from && value <= this.data.settings.to) {
+      const closestRight = Math.min(
+        ...this.data.points.filter(v => v >= value)
+      );
+      isPrimaryInput
+        ? this.setPrimaryValue(closestRight)
+        : this.setSecondaryValue(closestRight);
+    }
+  };
+
   public setPrimaryValue = (newValue: number): void => {
+    console.log("newValue", newValue);
     this.data.settings.values[0] = newValue;
     this.calculatePercentValue();
     this.customEvents.dispatchEvent(EVENTS.drag);
@@ -44,20 +56,18 @@ export class SliderModel {
   };
 
   private calculatePoints = (): void => {
-    const { startValue, endValue, stepSize } = this.data.settings;
-    for (let i = startValue; i <= endValue; i += stepSize) {
+    const { from, to, step } = this.data.settings;
+    for (let i = from; i <= to; i += step) {
       this.data.points.push(i);
     }
   };
 
   private calculatePercents = (): void => {
-    const { startValue } = this.data.settings;
+    const { from } = this.data.settings;
     const { points, percents } = this.data;
     let endPoint = points[points.length - 1];
     points.map(item => {
-      let res = customCeil(
-        ((item - startValue) * 100) / (endPoint - startValue)
-      );
+      let res = customCeil(((item - from) * 100) / (endPoint - from));
       percents.push(res);
     });
   };
