@@ -1,3 +1,3 @@
 export const EVENTS = {
-  drag: "DRAG_EVENT"
+  changeValue: "CHANGE_VALUE"
 };

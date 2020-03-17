@@ -8,13 +8,114 @@
   </head>
   <body>
     <div class="container">
-      <div id="controot">
-        <div id="root"></div>
-        <div id="root2"></div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Slider with default settings</h5>
+        </div>
+        <div class="card-body">
+          <div class="slider-1"></div>
+          <code>$(".slider").slider();</code>
+        </div>
       </div>
-      <input id="root3-input1" type="text" value="" />
-      <div id="root3"></div>
-      <input id="root3-input2" type="text" value="" />
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Range slider with default settings</h5>
+        </div>
+        <div class="card-body">
+          <div class="slider-2"></div>
+          <code>$(".slider").slider({ range: true });</code>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Range slider with inputs</h5>
+        </div>
+        <div class="card-body">
+          <div class="card-content slider3">
+            <input
+              type="text"
+              id="primary-input-slider-3"
+              class="form-control"
+            />
+            <div class="slider-3"></div>
+
+            <input
+              type="text"
+              id="secondary-input-slider-3"
+              class="form-control"
+            />
+          </div>
+          <code>$(".slider").slider({ range: true });</code>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Vertical range slider with inputs</h5>
+        </div>
+        <div class="card-body">
+          <div class="card-content slider4">
+            <input
+              type="text"
+              id="primary-input-slider-4"
+              class="form-control"
+            />
+            <div class="slider-4" style="height: 200px;"></div>
+            <input
+              type="text"
+              id="secondary-input-slider-4"
+              class="form-control"
+            />
+          </div>
+          <code>$(".slider").slider({ range: true });</code>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Configure slider panel</h5>
+        </div>
+        <div class="card-body">
+          <div class="card-content slider5">
+            <div class="configure-slider">
+              <input
+                type="text"
+                id="primary-input-slider-5"
+                class="form-control"
+              />
+              <div class="slider-5"></div>
+              <input
+                type="text"
+                id="secondary-input-slider-5"
+                class="form-control"
+              />
+            </div>
+
+            <div class="configure-panel">
+              <form>
+                <div class="form-group">
+                  <input type="checkbox" class="" id="rangeSliderCheckbox" onclick=""> Range</input>
+                </div>
+                <div class="form-group">
+                  <input type="checkbox" class="" id="VerticalSliderCheckbox" onclick=""> Vertical</input>
+                </div>
+                <div class="form-group">
+                  <input type="checkbox" class="" id="TooltipSliderCheckbox" onclick=""> Tooltip</input>
+                </div>
+                <div class="form-group">
+                  <label for="StepSliderInput">Step</label>
+                  <input type="email" class="form-control" id="StepSliderInput" placeholder="Set step for slider">
+                </div>
+                
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

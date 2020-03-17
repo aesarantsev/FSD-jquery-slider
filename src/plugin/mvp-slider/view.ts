@@ -1,10 +1,12 @@
 import { IData } from "./model";
+import customCeil from "./utils/customCeil";
 
 export class SliderView {
   data: IData;
 
   //===== DOM elements
   baseDiv: HTMLElement;
+
   sliderBaseDiv: HTMLElement;
   sliderTrackDiv: HTMLElement;
   sliderSelectionDiv: HTMLElement;
@@ -21,10 +23,21 @@ export class SliderView {
       this.data.settings.range,
       this.data.settings.ui.vertical
     );
+    // console.log('baseDiv', this.baseDiv)
     this.updateView(data);
   }
 
   public updateView = (data: IData): void => {
+    this.data = data;
+
+    // console.log('this.data', this.data)
+
+    // this.generateSliderElement(
+    //   data.settings.ui.tooltip,
+    //   data.settings.range,
+    //   data.settings.ui.vertical
+    // );
+
     if (this.data.settings.inputs[0]) {
       this.data.settings.inputs[0].val(data.settings.values[0]);
     }
@@ -44,8 +57,15 @@ export class SliderView {
     );
     if (this.data.settings.ui.tooltip) {
       this.sliderPrimaryTooltipSpan.innerHTML = data.settings.values[0].toString();
-      if (this.data.settings.range && data.settings.values[1])
+      this.sliderPrimaryTooltipSpan.style.visibility = "visible";
+
+      if (this.data.settings.range && data.settings.values[1]) {
         this.sliderSecondaryTooltipSpan.innerHTML = data.settings.values[1].toString();
+        this.sliderSecondaryTooltipSpan.style.visibility = "visible";
+      }
+    } else {
+      this.sliderPrimaryTooltipSpan.style.visibility = "hidden";
+      this.sliderSecondaryTooltipSpan.style.visibility = "hidden";
     }
   };
 
@@ -86,7 +106,6 @@ export class SliderView {
           : ((e.pageX - shiftX - parentElementCoords.left) * 100) /
               parentElementWidth
       );
-
       let condidatId = this.data.percents.indexOf(condidat);
       if (condidat <= 100 && condidat >= 0)
         if (condidatId != -1) {
@@ -142,6 +161,7 @@ export class SliderView {
 
     this.sliderTrackDiv.append(this.sliderSelectionDiv);
     if (tooltip) {
+      // console.log("tooltip")
       this.sliderPrimaryHandlerDiv.append(this.sliderPrimaryTooltipSpan);
       this.sliderSecondaryHandlerDiv.append(this.sliderSecondaryTooltipSpan);
     }
@@ -172,15 +192,3 @@ function getCoords(elem: HTMLElement) {
   };
 }
 
-function customCeil(value: number): number {
-  let res = Math.ceil(value);
-
-  if (value > 0 && value < 1) {
-    res = 0;
-  }
-  if (value > 99 && value < 100) {
-    res = 100;
-  }
-
-  return res;
-}

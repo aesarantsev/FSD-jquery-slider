@@ -12,7 +12,7 @@ interface SliderOptions {
 }
 
 interface SliderFunction {
-  (options?: SliderOptions): JQuery;
+  (method?: string|object, ...args:any): JQuery;
 }
 
 interface Slider extends SliderFunction {}
